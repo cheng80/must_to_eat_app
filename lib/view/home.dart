@@ -259,6 +259,7 @@ class _HomeState extends State<Home> {
           foregroundColor: Colors.white,
           icon: icon,
           label: label,
+          borderRadius: BorderRadius.circular(16),
         ),
       ],
     );

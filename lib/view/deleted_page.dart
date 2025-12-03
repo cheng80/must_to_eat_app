@@ -108,6 +108,7 @@ class _DeletedPageState extends State<DeletedPage> {
           foregroundColor: Colors.white,
           icon: icon,
           label: label,
+          borderRadius: BorderRadius.circular(16),
         ),
       ],
     );
