@@ -1,5 +1,4 @@
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 
 import '../model/musteatplace.dart';
 import '../vm/database_handler.dart';

@@ -237,7 +237,7 @@ class _InsertPageState extends State<InsertPage> {
       lat: latData,
       lng: lngData,
       estimate: _estimateController.text.trim(),
-      initdate: DateTime.now().toString(),
+      initdate: CustomCommonUtil.formatDate(DateTime.now(), 'yyyy-MM-dd HH:mm:ss'), // '2024-01-15 14:30:00'
       starlevel: _rating.toInt(),
       image: getImageBytes,
     );

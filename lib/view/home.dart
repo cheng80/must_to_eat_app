@@ -52,9 +52,21 @@ class _HomeState extends State<Home> {
       appBar: CustomAppBar(
         
         title: CustomText( "내가 경험한 맛집 리스트", fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white,),
+        drawerIcon: Icons.menu, // Drawer 아이콘 커스텀 (기본값: Icons.menu)
+        drawerIconColor: Colors.white.withAlpha(0),
+        leading: Builder(
+          builder: (context) {
+            return GestureDetector(
+              onLongPress: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Icon(Icons.menu, color: Colors.white.withAlpha(0),),
+            );
+          },
+        ),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.add, color: Colors.white,),
             onPressed: (){
               Get.toNamed('/insert_page')?.then((value) {
                 _reloadData();
@@ -71,6 +83,40 @@ class _HomeState extends State<Home> {
             }
           ),
         ],
+      ),
+      drawerEnableOpenDragGesture: false, // 스와이프 비활성화
+      drawer: CustomDrawer(
+        header: DrawerHeader(
+          decoration: BoxDecoration(color: Colors.white),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: CustomColumn(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 4,
+            children: [
+              
+              CustomText(
+                "맛집 더미 데이터 삽입",
+                color: Colors.white70,
+              ),
+
+              CustomButton(
+                btnText: "더미 데이터 삽입",
+                onCallBack: () async {
+                  int result = await _handler.insertDummyData();
+                  _reloadData();
+                  if (result > 0) {
+                    CustomSnackBar.show(context, message: "더미 데이터가 삽입되었습니다.");
+                    //drawer 닫기
+                    Navigator.of(context).pop();
+                  } else {
+                    CustomSnackBar.show(context, message: "더미 데이터 삽입에 실패했습니다.");
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+        items: [],
       ),
       body: CustomPadding.all(
         16,
