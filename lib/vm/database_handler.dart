@@ -177,6 +177,14 @@ class DatabaseHandler {
     
   }
 
+  //DB 내용 일괄 삭제  
+  Future<void> allClearData() async {
+    
+    final Database db = await initializeDB(); // DB열기
+    await db.rawDelete( //mustateplace 테이블 내용 전체 삭제
+      'DELETE FROM musteatplace'
+    );
+  }
   //더미 데이터 삽입
   Future<int> insertDummyData() async {
   final Database db = await initializeDB();

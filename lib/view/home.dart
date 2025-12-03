@@ -87,6 +87,7 @@ class _HomeState extends State<Home> {
       drawerEnableOpenDragGesture: false, // 스와이프 비활성화
       drawer: CustomDrawer(
         header: DrawerHeader(
+          
           decoration: BoxDecoration(color: Colors.white),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: CustomColumn(
@@ -113,10 +114,50 @@ class _HomeState extends State<Home> {
                   }
                 },
               ),
+              //-----------
+              
             ],
           ),
         ),
-        items: [],
+        items: [
+          
+        ],
+        middleChildren: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: CustomColumn(
+              children: [
+                CustomText(
+                  "맛집 데이터 일괄 삭제",
+                  color: Colors.white70,
+                ),
+
+                CustomButton(
+                  btnText: "데이터 일괄 삭제",
+                  onCallBack: () async {
+                    await _handler.allClearData();
+                    _reloadData();
+                    CustomSnackBar.show(context, message: "모든 맛집 데이터가 삭제되었습니다.");
+                    //drawer 닫기
+                    Navigator.of(context).pop();
+                  },
+                ),
+                
+              ],
+            ),
+          ),
+        ],
+        footer: Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          padding: const EdgeInsets.all(16),
+          child: CustomColumn(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomText("맛집 앱 v1.0.0", color: Colors.grey,),
+            ],
+          ),
+        ),
+        
       ),
       body: CustomPadding.all(
         16,

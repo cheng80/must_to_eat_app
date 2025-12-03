@@ -46,15 +46,32 @@ class DrawerItem {
 /// ```dart
 /// CustomDrawer(
 ///   header: DrawerHeader(...),
+///   middleChildren: [
+///     Divider(),
+///     Padding(...), // 헤더와 items 사이에 일반 위젯 추가 가능
+///   ],
 ///   items: [DrawerItem(label: "홈", icon: Icons.home, onTap: () {})],
+///   bottomChildren: [
+///     Divider(),
+///     Padding(...), // items 아래 footer 위에 일반 위젯 추가 가능
+///   ],
+///   footer: Container(...),
 /// )
 /// ```
 class CustomDrawer extends StatelessWidget {
   /// Drawer 상단에 표시할 헤더 위젯 (선택사항)
   final Widget? header;
 
+  /// 헤더와 메뉴 항목 사이에 표시할 일반 위젯들 (선택사항)
+  /// 헤더 아래, items 위에 표시됩니다.
+  final List<Widget>? middleChildren;
+
   /// Drawer 메뉴 항목 리스트 (필수)
   final List<DrawerItem> items;
+
+  /// 메뉴 항목과 푸터 사이에 표시할 일반 위젯들 (선택사항)
+  /// items 아래, footer 위에 표시됩니다.
+  final List<Widget>? bottomChildren;
 
   /// Drawer 배경색
   final Color? backgroundColor;
@@ -68,7 +85,9 @@ class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
     super.key,
     this.header,
+    this.middleChildren,
     required this.items,
+    this.bottomChildren,
     this.backgroundColor,
     this.width,
     this.footer,
@@ -89,50 +108,58 @@ class CustomDrawer extends StatelessWidget {
                 child: header!,
               ),
 
-            // 메뉴 항목들
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: items.map((item) {
-                  // label이 String인지 Widget인지 확인하고 처리
-                  Widget labelWidget;
-                  if (CustomCommonUtil.isString(item.label)) {
-                    // String인 경우 CustomText로 변환
-                    labelWidget = CustomText(
-                      item.label as String,
-                      fontSize: 16,
-                      fontWeight: item.selected
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                      color: item.selected
-                          ? (item.selectedTextColor ?? Colors.blue)
-                          : (item.textColor ?? Colors.black),
-                    );
-                  } else {
-                    // Widget인 경우 그대로 사용
-                    labelWidget = item.label as Widget;
-                  }
+            // 헤더와 items 사이의 일반 위젯들
+            if (middleChildren != null && middleChildren!.isNotEmpty) ...middleChildren!,
 
-                  return ListTile(
-                    leading: item.icon != null
-                        ? Icon(
-                            item.icon,
+            // 메뉴 항목들 (items가 있으면 ListView, 없으면 빈 공간 확보용 Expanded)
+            Expanded(
+              child: items.isNotEmpty
+                  ? ListView(
+                      padding: EdgeInsets.zero,
+                      children: items.map((item) {
+                        // label이 String인지 Widget인지 확인하고 처리
+                        Widget labelWidget;
+                        if (CustomCommonUtil.isString(item.label)) {
+                          // String인 경우 CustomText로 변환
+                          labelWidget = CustomText(
+                            item.label as String,
+                            fontSize: 16,
+                            fontWeight: item.selected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                             color: item.selected
                                 ? (item.selectedTextColor ?? Colors.blue)
                                 : (item.textColor ?? Colors.black),
-                          )
-                        : null,
-                    title: labelWidget,
-                    selected: item.selected,
-                    selectedTileColor: item.selectedColor ?? Colors.blue.shade50,
-                    onTap: () {
-                      Navigator.pop(context);
-                      item.onTap?.call();
-                    },
-                  );
-                }).toList(),
-              ),
+                          );
+                        } else {
+                          // Widget인 경우 그대로 사용
+                          labelWidget = item.label as Widget;
+                        }
+
+                        return ListTile(
+                          leading: item.icon != null
+                              ? Icon(
+                                  item.icon,
+                                  color: item.selected
+                                      ? (item.selectedTextColor ?? Colors.blue)
+                                      : (item.textColor ?? Colors.black),
+                                )
+                              : null,
+                          title: labelWidget,
+                          selected: item.selected,
+                          selectedTileColor: item.selectedColor ?? Colors.blue.shade50,
+                          onTap: () {
+                            Navigator.pop(context);
+                            item.onTap?.call();
+                          },
+                        );
+                      }).toList(),
+                    )
+                  : const SizedBox.shrink(),
             ),
+
+            // items와 footer 사이의 일반 위젯들
+            if (bottomChildren != null && bottomChildren!.isNotEmpty) ...bottomChildren!,
 
             // 푸터
             if (footer != null) footer!,
