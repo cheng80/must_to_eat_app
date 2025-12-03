@@ -1,6 +1,5 @@
 
 import 'package:get/get.dart';
-import 'package:must_to_eat_app/custom/widgets.dart';
 import 'package:path/path.dart';
 import '../model/musteatplace.dart';
 import 'package:sqflite/sqflite.dart';

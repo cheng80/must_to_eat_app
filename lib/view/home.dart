@@ -85,11 +85,13 @@ class _HomeState extends State<Home> {
         ],
       ),
       drawerEnableOpenDragGesture: false, // 스와이프 비활성화
+
+      /*------------------ Drawer ---------------------*/
       drawer: CustomDrawer(
         header: DrawerHeader(
           
           decoration: BoxDecoration(color: Colors.white),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: CustomColumn(
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 4,
@@ -159,6 +161,7 @@ class _HomeState extends State<Home> {
         ),
         
       ),
+      /*-----------------------------------------------*/
       body: CustomPadding.all(
         16,
         child: FutureBuilder( // 비동기 처리 위젯
