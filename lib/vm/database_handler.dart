@@ -201,10 +201,10 @@ class DatabaseHandler {
   if (rows.isEmpty) {
     Get.snackbar( 
       "Error", 
-      "데이터가 존재하지 않습니다. 더미 데이터를 추가하려면 먼저 id=1 데이터를 삽입해야 합니다.", 
+      "데이터가 존재하지 않습니다. 더미 데이터를 추가하려면 \n먼저 1개 이상의 데이터를 삽입해야 합니다.", 
       colorText: Colors.white, 
       backgroundColor: Colors.redAccent,
-      duration: Duration(seconds: 1),
+      duration: Duration(seconds: 2),
       snackPosition: SnackPosition.TOP
     );
     return 0;
@@ -213,7 +213,12 @@ class DatabaseHandler {
   final imageData = rows.first['image'];
 
   if (imageData == null) {
-    Get.snackbar("Error", "id=1 데이터에 이미지가 존재해야 더미 데이터를 추가할 수 있습니다.");
+    Get.snackbar("Error", "데이터에 이미지가 존재해야 더미 데이터를 추가할 수 있습니다.",
+      colorText: Colors.white, 
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 2),
+      snackPosition: SnackPosition.TOP
+    );
     return 0;
   }
 
